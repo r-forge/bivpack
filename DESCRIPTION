@@ -1,0 +1,12 @@
+Package: BIVpack
+Type: Package
+Title: Bayesian methods for IV regression
+Version: 1.0
+Date: 2013-11-21
+Author: Rodney Sparapani
+Maintainer: Rodney Sparapani <rsparapa@mcw.edu>
+Description: An R package to facilitate Instrumental Variables regression with Bayesian nonparametric methods.
+License: GPL (>= 2)
+Depends: Rcpp (>= 0.10.3), RcppEigen (>= 0.3.1.2.1)
+LinkingTo: Rcpp, RcppEigen
+Packaged: 2013-11-25 16:50:29 UTC; rsparapa
