@@ -4,6 +4,9 @@ bnivE <- function(
     x=NULL     # a matrix (n by p) of confounders, can be omitted if p=0
     ) {
 
+    ## this function needs more testing; do not use
+    return(FALSE)
+    
     if(length(x)==0) p <- 0
     else p <- ncol(x)
     
