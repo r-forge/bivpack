@@ -60,7 +60,7 @@ info <- list(theta=list(init=c(rep(gamma, p1), rep(delta, q), rep(eta, p1)),
              mu=list(init=c(mu, mu),
                prior=list(mean=c(0., 0.), prec=diag(0.001, 2))))
 
-sim <-  list(X=matrix(0, nrow=N, ncol=p1),
+data <-  list(X=matrix(0, nrow=N, ncol=p1),
              Z=matrix(c(-0.24146164, -0.29673723, -0.27538621,
                0.41463628, 0.39023100, -0.22045922, -0.07062149,
                -0.22595298, 0.01247487, -0.14472589), nrow=N, ncol=q),
@@ -72,7 +72,7 @@ sim <-  list(X=matrix(0, nrow=N, ncol=p1),
                0.2320320, 0.7451867))
 
 set.seed(42)
-nniv(info, sim, mcmc)
+nniv(info, data, mcmc)
 ##should produce approx...
 ##        gamma1   delta1     eta1      beta        mu1         mu2      T11       T12       T21      T22
 ## [1,] -17.85732 4.008851 20.01287 0.8217393 -0.3821324 -0.05601638 3.108135 -1.306804 -1.306804 2.188039
@@ -86,7 +86,7 @@ info <- list(beta=list(init=0.,
              theta=list(init=c(rep(0., p1), rep(0., q), rep(0., p1)),
                prior=list(mean=rep(0.,s), prec=diag(0.001, s))))
 
-sim <-  list(X=matrix(0, nrow=N, ncol=p1),
+data <-  list(X=matrix(0, nrow=N, ncol=p1),
              Z=matrix(c(-0.24146164, -0.29673723, -0.27538621,
                0.41463628, 0.39023100, -0.22045922, -0.07062149,
                -0.22595298, 0.01247487, -0.14472589), nrow=N, ncol=q),
@@ -96,14 +96,12 @@ sim <-  list(X=matrix(0, nrow=N, ncol=p1),
                0.2320320, 0.7451867))
 
 set.seed(42)
-(par.post <- bniv(info, sim, mcmc))
+(par.post <- bniv(info, data, mcmc))
 ##should produce approx...
 ##       gamma1   delta1     eta1       beta       mu1        mu2       rho     s2sq
 ## [1,] 47.79852 1.231516 63.82816 -0.1581546 0.1076077 -0.2405642 0.4071552 0.626958
 
-bnivE(par.post[1, ], sim$Z, sim$X)
-##should produce approx...
-## -0.4147149
+##bnivE(par.post[1, ], data$Z, data$X)
 
 info <- list(beta=list(init=0, prior=list(mean=0, prec=0.001)),
              rho=list(init=0),
@@ -119,7 +117,7 @@ info <- list(beta=list(init=0, prior=list(mean=0, prec=0.001)),
                     alpha0=0.5, lambda0=0.4)))
 
 set.seed(42)
-(non.post <- bnivDPM(info, sim, mcmc))
+(non.post <- bnivDPM(info, data, mcmc))
 ##should produce approx...
 ## [[1]]
 ## [[1]]$beta
@@ -142,13 +140,11 @@ set.seed(42)
 ## [1] 0.1844611
 
 set.seed(42)
-(non.post <- bnivDPM(NULL, sim, mcmc))
+(non.post <- bnivDPM(NULL, data, mcmc))
 ##should produce approx...
 ## same as above
 
-bnivE(non.post[[1]], sim$Z, sim$X)
-##should produce approx...
-## 0.2997791
+##bnivE(non.post[[1]], data$Z, data$X)
 
 info <- list(theta=list(init=c(rep(gamma, p1), rep(delta, q), rep(eta, p1)),
                prior=list(mean=rep(0., s),
@@ -158,7 +154,7 @@ info <- list(theta=list(init=c(rep(gamma, p1), rep(delta, q), rep(eta, p1)),
              mu=list(init=c(mu, mu),
                prior=list(mean=c(0., 0.), prec=diag(0.001, 2))))
 
-sim <-  list(X=matrix(0, nrow=N, ncol=p1),
+data <-  list(X=matrix(0, nrow=N, ncol=p1),
              Z=matrix(c(-0.24146164, -0.29673723, -0.27538621,
                0.41463628, 0.39023100, -0.22045922, -0.07062149,
                -0.22595298, 0.01247487, -0.14472589), nrow=N, ncol=q),
@@ -166,12 +162,12 @@ sim <-  list(X=matrix(0, nrow=N, ncol=p1),
              ybin=as.integer(c(0, 0, 0, 0, 0, 1, 0, 0, 1, 1)))
 
 set.seed(42)
-(par.post <- bbiv(info, sim, mcmc))
+(par.post <- bbiv(info, data, mcmc))
 ##should produce approx...
 ##      gamma1   delta1      eta1      beta        mu1        mu2       rho
 ## [1,] 3.41756 3.697175 -15.94475 0.1152464 -0.7233647 -0.8709668 0.3693283
 
-bbivE(par.post[1, ], sim$Z, sim$X)
+bbivE(par.post[1, ], data$Z, data$X)
 ##should produce approx...
 ## 0.0995336
 
@@ -188,7 +184,7 @@ info <- list(beta=list(init=0, prior=list(mean=0, prec=1)),
                     alpha0=0.5, lambda0=0.4)))
 
 set.seed(42)
-(non.post <- bbivDPM(info, sim, mcmc))
+(non.post <- bbivDPM(info, data, mcmc))
 ##should produce approx...
 ## [[1]]
 ## [[1]]$beta
@@ -212,16 +208,35 @@ set.seed(42)
 ## [1] 1.029461
 
 set.seed(42)
-(non.post <- bbivDPM(NULL, sim, mcmc))
+(non.post <- bbivDPM(NULL, data, mcmc))
 ##should produce approx...
 ## same as above
 
 set.seed(42)
-bbivDPM(info, sim, mcmc, stdize=TRUE)
+bbivDPM(info, data, mcmc, stdize=TRUE)
 ##should produce approx...
-## same as above
+## [[1]]
+## [[1]]$beta
+## [1] -0.2440909
 
-bbivE(non.post[[1]], sim$Z, sim$X)
+## [[1]]$theta
+## [1]  0.2701818  1.3766962 -1.2605428
+
+## [[1]]$C
+##  [1] 0 0 0 0 1 0 1 0 0 0
+
+## [[1]]$phi
+##           [,1]       [,2]  [,3]
+## [1,] 0.5256154 -0.9161644 -0.39
+## [2,] 0.2071443 -0.9162833 -0.42
+
+## [[1]]$states
+## [1] 8 2
+
+## [[1]]$alpha
+## [1] 1.029461
+
+bbivE(non.post[[1]], data$Z, data$X)
 ##should produce approx...
 ##  -0.1687742
 
