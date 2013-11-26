@@ -44,10 +44,8 @@ echo $contents; } ?>
 <!-- end of project description -->
 
 <p> 
-
-<a href="http://r-forge.r-project.org/themes/rforge/imagesrf/banners/Rlogo.jpg">R logo</a>
-
-No content added. </p>
+<a href="http://r-forge.r-project.org/scm/viewvc.php/*checkout*/inst/doc/bivpack.pdf?revision=8&root=bivpack">BIVpack documentation</a>
+</p>
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
